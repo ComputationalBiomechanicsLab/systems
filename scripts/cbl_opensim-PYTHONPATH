@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# convenience script that locates system-wide opensim python package
+
+echo /usr/local/lib/python3.8/site-packages/
