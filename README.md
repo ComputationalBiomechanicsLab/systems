@@ -111,7 +111,7 @@ This walkthrough essentially sets up:
 
 | details |
 | ------- |
-| Server address (IPv4) == 145.94.60.179 |
+| Server address (IPv4) == 145.94.60.222 |
 | ECDSA MD5:9c:0a:63:57:71:c6:c6:77:5e:66:d3:8b:d0:ac:9d:8f |
 | ECDSA SHA256:/3U2CknH+ndkOEuwLnEjRH3lUyy6xWtXPQbmj9lojq4 |
 | **Access via SSH only**: you *must* use an SSH tunnel to access anything |
@@ -135,7 +135,7 @@ harder-to-remember (and potentially changing) IP address.
 - Add this line to the bottom of `hosts`:
 
 ```
-145.94.60.179 cbl1
+145.94.60.222 cbl1
 ```
 
 - The last few lines of your `hosts` file should look something like this:
@@ -152,16 +152,16 @@ harder-to-remember (and potentially changing) IP address.
 # localhost name resolution is handled within DNS itself.
 #	127.0.0.1       localhost
 #	::1             localhost
-145.94.60.179 cbl1
+145.94.60.222 cbl1
 ```
 
 - Save the change. After saving, all connections from your computer to 
-  `cbl1` (e.g. in a browser, SSH, software) will now connect to 145.94.60.179. 
+  `cbl1` (e.g. in a browser, SSH, software) will now connect to 145.94.60.222. 
   You can test this by:
   
     - Opening a terminal (`WinKey + R`, type `cmd`, press `Enter`)
     - Typing `ping cbl1`
-    - You should see lines like `Pinging cbl1 [145.94.60.179] with 32 bytes of data`,
+    - You should see lines like `Pinging cbl1 [145.94.60.222] with 32 bytes of data`,
       which means that `cbl1` was correctly resolved to the IP address
 
 #### 2. Connect to the server with SSH
