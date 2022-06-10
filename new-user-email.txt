@@ -1,0 +1,24 @@
+Hi $name,
+
+I have created a user account on the system:
+
+    username: $username
+    password: $temppassword
+    (to change your password, type `passwd` or `passwd $username` in the command-line on first login)
+
+See the "Walkthough" section at the following link for more information:
+
+    https://github.com/ComputationalBiomechanicsLab/systems
+
+The account is for a standalone Linux machine that has typical CBL software (e.g. OpenSim, SCONE, etc.) installed on it. All connections to the machine must be made via `ssh`. Remote desktop (VNC) connections are via an `ssh` tunnel. Once you're connected, you'll need to change your password via SSH (explained in the guide) using the command `passwd`.
+
+General points:
+
+- If you find the guide is unclear, or you'd prefer to work through the setup together, then email me and we can arrange a meeting to sort that out. Don't be afraid to do this: I usually also use those meetings to also improve this documentation/communication.
+- The computer is running a bare-bones install of Ubuntu, plus some CBL-specific software (e.g. OpenSim) and toolchains (e.g. Anaconda). If you need something newer, or different, for your research then just ask: I can install it and configure it for you. The machine isn't strictly administered, so it's usually not a big deal to install new software on it.
+- You can run your own code (e.g. python scripts) on the machine. The only limitation is that your code will not be able to run as an administrator (i.e. root/sudo). This usually isn't a problem for research code.
+
+Again, if you find something unclear, or you'd prefer to work through this together, we can have a call/meeting to set things up - it's no problem. A call/meeting usually involves going through the guide together, followed by us discussing any software requirements/changes you specifically need for your work. I can also provide basic software support (e.g. writing small scripts, building libraries, etc.) to help get your workflow rolling.
+
+Cheers,
+Adam
