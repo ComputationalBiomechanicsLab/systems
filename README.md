@@ -2,89 +2,11 @@
 
 Guides / documentation for CBL hardware
 
-
 ## cbl1
 
 `cbl1` is currently the only CBL workstation. It is a high-end machine
 that has been configured for batch-processing long-running simulation
 jobs.
-
-
-### Hardware
-
-High-end (in 2020) consumer-grade hardware. Specs: Ryzen9 3950X
-(16-core processor), 32 GB RAM (16 GB swap), GeForce2080 RTX, Samsung
-NVMe 1 TB SSD hard drive.
-
-More details can be found from a terminal (e.g. SSH):
-
-```
-cat /proc/cpuinfo  | head
-processor	: 0
-vendor_id	: AuthenticAMD
-cpu family	: 23
-model		: 113
-model name	: AMD Ryzen 9 3950X 16-Core Processor
-stepping	: 0
-microcode	: 0x8701013
-cpu MHz		: 2195.876
-cache size	: 512 KB
-physical id	: 0
-
-lspci | grep -i vga
-0b:00.0 VGA compatible controller: NVIDIA Corporation TU102 [GeForce RTX 2080 Ti Rev. A] (rev a1)
-
-cat /proc/meminfo
-MemTotal:       32874652 kB
-MemFree:        12174576 kB
-MemAvailable:   22365668 kB
-Buffers:         1182340 kB
-Cached:          8620264 kB
-SwapCached:       479168 kB
-Active:         14064448 kB
-Inactive:        4162512 kB
-Active(anon):    7577676 kB
-Inactive(anon):  1010192 kB
-Active(file):    6486772 kB
-Inactive(file):  3152320 kB
-Unevictable:         208 kB
-Mlocked:             208 kB
-SwapTotal:      16383996 kB
-
-lspci | grep -i ssd
-01:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller SM981/PM981/PM983
-
-df -h | grep '/$'
-/dev/nvme0n1p2  938G  164G  727G  19% /
-```
-
-### Software
-
-Barebones Ubuntu 20.04 install. `python` is assumed to be the
-scripting language that most people will use. For biomech-specific
-software, `opensim`, `scone`, and `opensim-moco` are currently
-installed.
-
-CBL-specific scripts have also been put onto the system. These are
-always prefixed with `cbl_` and are generally ad-hoc quality-of-life
-scripts (e.g. reset VNC, reset password).
-
-`cbl1`'s firewall has been configured to only allow inbound
-connections to the SSH server. If you need to host anything (e.g. a
-webserver, VNC server, etc.) clients will only be able to access those
-services by tunneling via an SSH connection.
-
-| command | result (tidied) |
-| ------- | --------------- |
-| `lsb_release -a` | Ubuntu 20.04 |
-| `python --version` | 3.8.x |
-| `python2` | (not available) |
-| `sconecmd --version` | scone 1.6.0.3183 ALPHA |
-| `opensim-cmd --version` | OpenSim 4.2 (custom build from `master` /w support for ScapulothoracicJoint) |
-| `conda --version` | conda 4.8.3 |
-| `opensim-moco --version` | 0.5.0-2020-09-09-f5dc979c |
-| `cbl_*` | not versioned: these are typically just bash/python scripts that do something useful |
-
 
 ### Connecting to `cbl1`
 
@@ -283,3 +205,79 @@ ssh -L 59000:localhost:<your VNC server port> username@cbl1
 
 - Once connected, you should see a (somewhat rough-looking) Linux
   desktop
+
+
+### Hardware
+
+High-end (in 2020) consumer-grade hardware. Specs: Ryzen9 3950X
+(16-core processor), 32 GB RAM (16 GB swap), GeForce2080 RTX, Samsung
+NVMe 1 TB SSD hard drive.
+
+More details can be found from a terminal (e.g. SSH):
+
+```
+cat /proc/cpuinfo  | head
+processor	: 0
+vendor_id	: AuthenticAMD
+cpu family	: 23
+model		: 113
+model name	: AMD Ryzen 9 3950X 16-Core Processor
+stepping	: 0
+microcode	: 0x8701013
+cpu MHz		: 2195.876
+cache size	: 512 KB
+physical id	: 0
+
+lspci | grep -i vga
+0b:00.0 VGA compatible controller: NVIDIA Corporation TU102 [GeForce RTX 2080 Ti Rev. A] (rev a1)
+
+cat /proc/meminfo
+MemTotal:       32874652 kB
+MemFree:        12174576 kB
+MemAvailable:   22365668 kB
+Buffers:         1182340 kB
+Cached:          8620264 kB
+SwapCached:       479168 kB
+Active:         14064448 kB
+Inactive:        4162512 kB
+Active(anon):    7577676 kB
+Inactive(anon):  1010192 kB
+Active(file):    6486772 kB
+Inactive(file):  3152320 kB
+Unevictable:         208 kB
+Mlocked:             208 kB
+SwapTotal:      16383996 kB
+
+lspci | grep -i ssd
+01:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller SM981/PM981/PM983
+
+df -h | grep '/$'
+/dev/nvme0n1p2  938G  164G  727G  19% /
+```
+
+### Software
+
+Barebones Ubuntu 20.04 install. `python` is assumed to be the
+scripting language that most people will use. For biomech-specific
+software, `opensim`, `scone`, and `opensim-moco` are currently
+installed.
+
+CBL-specific scripts have also been put onto the system. These are
+always prefixed with `cbl_` and are generally ad-hoc quality-of-life
+scripts (e.g. reset VNC, reset password).
+
+`cbl1`'s firewall has been configured to only allow inbound
+connections to the SSH server. If you need to host anything (e.g. a
+webserver, VNC server, etc.) clients will only be able to access those
+services by tunneling via an SSH connection.
+
+| command | result (tidied) |
+| ------- | --------------- |
+| `lsb_release -a` | Ubuntu 20.04 |
+| `python --version` | 3.8.x |
+| `python2` | (not available) |
+| `sconecmd --version` | scone 1.6.0.3183 ALPHA |
+| `opensim-cmd --version` | OpenSim 4.2 (custom build from `master` /w support for ScapulothoracicJoint) |
+| `conda --version` | conda 4.8.3 |
+| `opensim-moco --version` | 0.5.0-2020-09-09-f5dc979c |
+| `cbl_*` | not versioned: these are typically just bash/python scripts that do something useful |
