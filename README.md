@@ -17,6 +17,7 @@ just want to reconnect:
 
 - Open windows terminal
 - Run `ssh -L 59000:localhost:<your vpn port> username@cbl1`
+- Type in your password (remember, you can't see it being typed in)
 - Open VNC viewer on your Windows machine
 - Use your VNC password to connect
   - You can reset your VNC password from an SSH terminal with `cbl_vnc-passwd`
@@ -25,31 +26,32 @@ just want to reconnect:
 
 This walkthrough essentially sets up:
 
-- Making windows forward `cbl1` to the server's IP address
+- Reconfiguring Windows to forward connections to `cbl1` to the server's actual IP address
 - Using `ssh` to connect a terminal to `cbl1`
 - Launching a personal VNC server on `cbl1`
 - Opening an SSH tunnel to the VNC server
 - Using VNC Viewer to connect to the tunneled VNC server
 
-| details |
-| ------- |
-| Server address (IPv4) == 145.94.60.222 |
-| ECDSA MD5:9c:0a:63:57:71:c6:c6:77:5e:66:d3:8b:d0:ac:9d:8f |
-| ECDSA SHA256:/3U2CknH+ndkOEuwLnEjRH3lUyy6xWtXPQbmj9lojq4 |
-| **Access via SSH only**: you *must* use an SSH tunnel to access anything |
+| server detail | value |
+| ------------- | ----- |
+| Server address (IPv4) | 145.94.60.222 |
+| ECDSA | MD5:9c:0a:63:57:71:c6:c6:77:5e:66:d3:8b:d0:ac:9d:8f |
+| ECDSA | SHA256:/3U2CknH+ndkOEuwLnEjRH3lUyy6xWtXPQbmj9lojq4 |
+| Accessible ports | **SSH ONLY**: you *must* use an SSH tunnel to access anything |
 
 
 #### 1. (optional) Setup the `cbl1` Hostname
 
-This step sets up the hostname `cbl1` to point to the server's IP
-address (above) on your machine. It's mostly a quality-of-life step
+This step sets up the hostname `cbl1` to point towards the server's IP
+address (above). It is mostly a quality-of-life step
 that enables referring to the machine as `cbl1`, rather than some
-harder-to-remember (and potentially changing) IP address.
+harder-to-remember (and potentially changing - TU Delft changes them
+occasionally) IP address.
 
 - Open Notepad as an administrator
 
-  - Find it Notepad in the start bar
-  - Right click the icon, click "Run as administrator"
+  - Find Notepad in the start bar
+  - Right-click the icon, click "Run as administrator"
 
 - In Notepad, open C:\Windows\system32\drivers\etc\hosts (you may need to change
   `Text Documents (*.txt)` to `All Files` in the bottom of the dialog)
@@ -86,12 +88,15 @@ harder-to-remember (and potentially changing) IP address.
     - You should see lines like `Pinging cbl1 [145.94.60.222] with 32 bytes of data`,
       which means that `cbl1` was correctly resolved to the IP address
 
+
 #### 2. Connect to the server with SSH
 
 All connections to `cbl1` must go via an SSH tunnel. SSH is a standard method for
 creating a secure connection to a remote machine. By "SSHing" into a server, you
 gain access to a terminal that can be used to run things on the server (via a
-command prompt). You always need an SSH connection to connect to `cbl1` - even 
+command prompt).
+
+You always need an SSH connection to connect to `cbl1` - even 
 if you actually want a GUI (e.g. a remote desktop). Later steps in this guide
 describe setting up a remote desktop *via* the SSH connection.
 
@@ -109,13 +114,11 @@ describe setting up a remote desktop *via* the SSH connection.
 - SSH into the server with your login credentials by typing `ssh
   username@cbl1`
 
-- The server should prompt that you're using an unknown connection
-  with some ECDSA fingerprint. This fingerprint should match the
-  server's (table, above)
+- Enter your password. **Note: you can't see any changes while typing
+  the password in (it's a security feature)**
 
-- If the ECDSA fingerprint looks ok, enter your password
-
-- You should now have an SSH connection to `cbl1`. 
+- You should now have an SSH connection to `cbl1`. It will print a
+  welcome message, etc.
 
 - If you only need  terminal access, you can stop reading this
   walkthrough - you're done :smile:
@@ -137,13 +140,14 @@ A VNC client is used to "remote desktop" connect to a VNC server on
     - **this is different from your SSH password**
     - It is limited to 6 characters
     - It does not need to be secure, because your VNC connection
-      goes via your (secure) SSH connection
+      always goes via your (secure) SSH connection
   - The VNC server's port, printed in the terminal (e.g. `6901`)
     - The `cbl_vnc-start` should print this in a large banner, or some
       explanation text
 
 - A VNC server is now running on `cbl1`. However, it is hidden behind
   `cbl1`'s firewall, which only permits SSH connections.
+
 
 #### 4. Setup SSH tunnel to the VNC server
 
@@ -182,6 +186,7 @@ ssh -L 59000:localhost:<your VNC server port> username@cbl1
 - Other VNC clients (e.g. Remmina) also seem to work, but I only
   tested with VNC Viewer on Windows
 
+
 #### 6. Use the client to connect to the VNC server via the tunnel
 
 - In your VNC client, connect to `localhost:59000`, which is the
@@ -205,6 +210,8 @@ ssh -L 59000:localhost:<your VNC server port> username@cbl1
 
 - Once connected, you should see a (somewhat rough-looking) Linux
   desktop
+  
+You're done! woohoo! :smile:
 
 
 ### Hardware
