@@ -35,5 +35,8 @@ iptables --append INPUT --match conntrack --ctstate ESTABLISHED,RELATED --jump A
 # workstation and are destined for the CBL workstation)
 iptables --append INPUT --in-interface lo --jump ACCEPT
 
+# allow ICMP packets, so that the server can always be pinged
+iptables --append INPUT -p icmp -j ACCEPT
+
 # drop anything that isn't (externally) from SSH or (internally) from loopback
 iptables --append INPUT --jump REJECT
