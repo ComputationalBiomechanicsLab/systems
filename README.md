@@ -2,13 +2,25 @@
 
 Guides / documentation for CBL hardware
 
-## cbl1
+## `cbl1` (or `cbl1.3me.tudelft.nl`)
 
 `cbl1` is currently the only CBL workstation. It is a high-end machine
 that has been configured for batch-processing long-running simulation
 jobs.
 
-### Connecting to `cbl1`
+This guide uses `cbl1` (the short name) and `cbl1.3me.tudelft.nl` (the
+internet name) interchangeably: they mean the same thing.
+
+| server detail | value | comment |
+| ------------- | ----- | ------- |
+| Short name | `cbl1` | Mostly only used in this guide |
+| Internet Domain Name | `cbl1.3me.tudelft.nl` | Globally true |
+| Internet IP address | `130.161.252.14` | May change over time |
+| Local IP address | `172.19.126.14` | May change over time |
+| Firewall | SSH (TCP/22) only | |
+| SSH ECDSA (MD5) | `MD5:9c:0a:63:57:71:c6:c6:77:5e:66:d3:8b:d0:ac:9d:8f` | |
+| SSH ECDSA (SHA256) | `SHA256:/3U2CknH+ndkOEuwLnEjRH3lUyy6xWtXPQbmj9lojq4` | |
+
 
 ### Quickstart (Windows)
 
@@ -16,94 +28,38 @@ This assumes you already went through the extensive walthrough below and
 just want to reconnect:
 
 - Open windows terminal
-- Run `ssh -L 59000:localhost:<your vpn port> username@cbl1`
-- Type in your password (remember, you can't see it being typed in)
+- Run `ssh -L 59000:localhost:<your vpn port> username@cbl1.3me.tudelft.nl`
+- Type in your password (**remember, you can't see it being typed in**)
 - Open VNC viewer on your Windows machine
 - Use your VNC password to connect
   - You can reset your VNC password from an SSH terminal with `cbl_vnc-passwd`
 
-### Walkthrough
+
+### Walkthrough (Windows)
 
 This walkthrough essentially sets up:
 
-- Reconfiguring Windows to forward connections to `cbl1` to the server's actual IP address
 - Using `ssh` to connect a terminal to `cbl1`
 - Launching a personal VNC server on `cbl1`
 - Opening an SSH tunnel to the VNC server
 - Using VNC Viewer to connect to the tunneled VNC server
 
-| server detail | value |
-| ------------- | ----- |
-| Server address (IPv4) | 145.94.60.222 |
-| ECDSA | MD5:9c:0a:63:57:71:c6:c6:77:5e:66:d3:8b:d0:ac:9d:8f |
-| ECDSA | SHA256:/3U2CknH+ndkOEuwLnEjRH3lUyy6xWtXPQbmj9lojq4 |
-| Accessible ports | **SSH ONLY**: you *must* use an SSH tunnel to access anything |
 
-
-#### 1. (optional) Setup the `cbl1` Hostname
-
-This step sets up the hostname `cbl1` to point towards the server's IP
-address (above). It is mostly a quality-of-life step
-that enables referring to the machine as `cbl1`, rather than some
-harder-to-remember (and potentially changing - TU Delft changes them
-occasionally) IP address.
-
-- Open Notepad as an administrator
-
-  - Find Notepad in the start bar
-  - Right-click the icon, click "Run as administrator"
-
-- In Notepad, open C:\Windows\system32\drivers\etc\hosts (you may need to change
-  `Text Documents (*.txt)` to `All Files` in the bottom of the dialog)
-
-- Add this line to the bottom of `hosts`:
-
-```
-145.94.60.222 cbl1
-```
-
-- The last few lines of your `hosts` file should look something like this:
-
-```txt
-# Additionally, comments (such as these) may be inserted on individual
-# lines or following the machine name denoted by a '#' symbol.
-#
-# For example:
-#
-#      102.54.94.97     rhino.acme.com          # source server
-#       38.25.63.10     x.acme.com              # x client host
-
-# localhost name resolution is handled within DNS itself.
-#	127.0.0.1       localhost
-#	::1             localhost
-145.94.60.222 cbl1
-```
-
-- Save the change. After saving, all connections from your computer to 
-  `cbl1` (e.g. in a browser, SSH, software) will now connect to 145.94.60.222. 
-  You can test this by:
-  
-    - Opening a terminal (`WinKey + R`, type `cmd`, press `Enter`)
-    - Typing `ping cbl1`
-    - You should see lines like `Pinging cbl1 [145.94.60.222] with 32 bytes of data`,
-      which means that `cbl1` was correctly resolved to the IP address
-
-
-#### 2. Connect to the server with SSH
-
-All connections to `cbl1` must go via an SSH tunnel. SSH is a standard method for
-creating a secure connection to a remote machine. By "SSHing" into a server, you
-gain access to a terminal that can be used to run things on the server (via a
-command prompt).
-
-You always need an SSH connection to connect to `cbl1` - even 
-if you actually want a GUI (e.g. a remote desktop). Later steps in this guide
-describe setting up a remote desktop *via* the SSH connection.
+#### 1. Connect to the server with SSH
 
 > **Note**: this assumes you have been given SSH credentials by (e.g.) an
 > admin. Your credentials will be a **username** + **password** combo. This combo
 > differs from your general TU Delft credentials. Once you have logged into
-> `cbl1`, you can change your password in the terminal with `passwd`
+> `cbl1.3me.tudelft.nl`, you can change your password in the terminal with `passwd`
+
+All connections to `cbl1.3me.tudelft.nl` must go via an SSH tunnel. SSH is a
+standard method for creating a secure connection to a remote machine. By "SSHing"
+into a server, you gain access to a terminal that can be used to run things on
+the server (via a command prompt).
+
+You always need an SSH connection to connect to `cbl1` - even 
+if you actually want a GUI (e.g. a remote desktop). Later steps in this guide
+describe setting up a remote desktop *via* the SSH connection.
 
 - Open a Windows PowerShell window
 
@@ -112,22 +68,22 @@ describe setting up a remote desktop *via* the SSH connection.
   - Click "Open PowerShell Window Here"
 
 - SSH into the server with your login credentials by typing `ssh
-  username@cbl1`
+  username@cbl1.3me.tudelft.nl`
 
 - Enter your password. **Note: you can't see any changes while typing
   the password in (it's a security feature)**
 
-- You should now have an SSH connection to `cbl1`. It will print a
+- You should now have an SSH connection to `cbl1.3me.tudelft.nl`. It will print a
   welcome message, etc.
 
 - If you only need  terminal access, you can stop reading this
   walkthrough - you're done :smile:
 
 
-#### 3. Boot a VNC server on `cbl1`
+#### 2. Boot a VNC server on `cbl1`
 
 A VNC client is used to "remote desktop" connect to a VNC server on
-`cbl1`. Each user runs their own VNC server on `cbl1`.
+`cbl1.3me.tudelft.nl`. Each user runs their own VNC server on `cbl1`.
 
 - In your SSH session (established above) run `cbl_vnc-start`. If
   necessary, type a new VNC password. You can change the password
@@ -149,7 +105,7 @@ A VNC client is used to "remote desktop" connect to a VNC server on
   `cbl1`'s firewall, which only permits SSH connections.
 
 
-#### 4. Setup SSH tunnel to the VNC server
+#### 3. Setup a SSH tunnel to the VNC server
 
 `cbl1` only allows external connections via SSH. All services
 (e.g. VNC) must connect via an SSH tunnel. This step sets up a tunnel
@@ -168,9 +124,9 @@ previous step.
   the previous step):
 
 ```bash
-ssh -L 59000:localhost:<your VNC server port> username@cbl1
+ssh -L 59000:localhost:<your VNC server port> username@cbl1.3me.tudelft.nl
 
-# example: ssh -L 59000:localhost:6901 adam@cbl1
+# example: ssh -L 59000:localhost:6901 adam@cbl1.3me.tudelft.nl
 ```
 
 - You should now have a new SSH session open that looks exactly like
@@ -179,7 +135,7 @@ ssh -L 59000:localhost:<your VNC server port> username@cbl1
   server port>` on `cbl1`.
 
 
-#### 5. Install + setup VNC client on your machine
+#### 4. Install + setup VNC client on your machine
 
 - Download a VNC client. I used VNC Viewer, from [here](https://www.realvnc.com/en/connect/download/viewer/)
 
@@ -187,7 +143,7 @@ ssh -L 59000:localhost:<your VNC server port> username@cbl1
   tested with VNC Viewer on Windows
 
 
-#### 6. Use the client to connect to the VNC server via the tunnel
+#### 5. Use the client to connect to the VNC server via the tunnel
 
 - In your VNC client, connect to `localhost:59000`, which is the
   local-side of your (opened in the previous step) SSH tunnel to your
